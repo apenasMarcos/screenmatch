@@ -19,26 +19,24 @@ public class Principal {
 
     private final ConvertData convertData = new ConvertData();
 
-    private final String URL = "https://www.omdbapi.com/?apikey=";
+    private final String API_KEY = "";
+
+    private final String URL = "https://www.omdbapi.com/?apikey=" + API_KEY + "&t=";
 
 
     public void displayMenu(){
         System.out.println("Enter the name of the series to search");
 
         String seriesName = inputScanner.nextLine().replace(" ", "+");
-        SerieData seriesData = fetchData(apiConsumer, convertData, URL + "&t=" + seriesName, SerieData.class);
+        SerieData seriesData = fetchData(apiConsumer, convertData, URL + seriesName, SerieData.class);
 
         System.out.println(seriesData);
-
-        EpisodeData episodeData = fetchData(apiConsumer, convertData, URL + "&t=" + seriesName + "season=1&episode=1", EpisodeData.class);
-
-        System.out.println(episodeData);
 
         List<SeasonData> seasonDataList = new ArrayList<>();
         IntStream.range(1, seriesData.totalSeasons() + 1)
                 .boxed()
                 .forEach(i -> {
-                    SeasonData seasonData = fetchData(apiConsumer, convertData, URL + "&t=" + seriesName + i, SeasonData.class);
+                    SeasonData seasonData = fetchData(apiConsumer, convertData, URL + seriesName + "&season=" + i, SeasonData.class);
                     seasonDataList.add(seasonData);
                     System.out.println(seasonData);
                 });
