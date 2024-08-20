@@ -1,4 +1,4 @@
-package br.com.marcos.screenmatch.principal;
+package br.com.marcos.screenmatch.service;
 
 import br.com.marcos.screenmatch.model.EpisodeData;
 import br.com.marcos.screenmatch.model.SeasonData;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class Principal {
 
+public class SeriesService {
     private final Scanner inputScanner = new Scanner(System.in);
 
     private final ApiConsumer apiConsumer = new ApiConsumer();
