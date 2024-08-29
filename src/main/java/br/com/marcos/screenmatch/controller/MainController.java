@@ -1,38 +1,31 @@
 package br.com.marcos.screenmatch.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.marcos.screenmatch.service.SeriesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.marcos.screenmatch.service.SerieService;
-
 @RestController
 @RequestMapping("/api")
 public class MainController {
 
-    @Autowired
-    private SeriesService seriesService;
+    private final SeriesService seriesService;
 
-    @GetMapping("/series")
-    public ResponseEntity<?> listSeries() {
-        return ResponseEntity.ok(seriesService.listSeries());
+    public MainController(SeriesService seriesService) {
+        this.seriesService = seriesService;
     }
 
-    @GetMapping("/series/{id}")
-    public ResponseEntity<?> findSeriesById(@PathVariable Long id) {
-        return ResponseEntity.ok(seriesService.findSeriesById(id));
+
+    @GetMapping("/series/{name}")
+    public ResponseEntity<?> findSeriesByName(@PathVariable String name) {
+        return ResponseEntity.ok(seriesService.findSeriesByName(name));
     }
 
-    @GetMapping("/series/{id}/seasons")
-    public ResponseEntity<?> listSeasonsBySeries(@PathVariable Long id) {
-        return ResponseEntity.ok(seriesService.listSeasonsBySeries(id));
+    @GetMapping("/series/{name}/seasons")
+    public ResponseEntity<?> listSeasonsBySeries(@PathVariable String name) {
+        return ResponseEntity.ok(seriesService.listSeasonsBySeries(name));
     }
 
-    @GetMapping("/series/{id}/seasons/{seasonId}/episodes")
-    public ResponseEntity<?> listEpisodesBySeason(@PathVariable Long id, @PathVariable Long seasonId) {
-        return ResponseEntity.ok(seriesService.listEpisodesBySeason(id, seasonId));
-    }
 }
