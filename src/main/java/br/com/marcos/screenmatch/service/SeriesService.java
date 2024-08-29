@@ -7,12 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 @Service
 public class SeriesService {
-    private final Scanner inputScanner = new Scanner(System.in);
 
     private final ApiConsumer apiConsumer = new ApiConsumer();
 
