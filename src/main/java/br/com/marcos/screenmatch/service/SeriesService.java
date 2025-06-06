@@ -40,10 +40,9 @@ public class SeriesService {
                     seasonDataList.add(seasonData);
                 });
 
-        seasonDataList.stream()
+        return seasonDataList.stream()
                 .flatMap(seasonData -> seasonData.episodes().stream())
                 .map(EpisodeData::title)
-                .forEach(System.out::println);
-        return null;
+                .toList();
     }
 }
