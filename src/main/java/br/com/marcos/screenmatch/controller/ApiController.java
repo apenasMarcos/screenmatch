@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
     @RequestMapping("/api")
-public class MainController {
+public class ApiController {
 
     private final SeriesService seriesService;
 
-    public MainController(SeriesService seriesService) {
+    public ApiController(SeriesService seriesService) {
         this.seriesService = seriesService;
     }
 

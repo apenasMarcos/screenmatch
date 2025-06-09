@@ -3,6 +3,7 @@ package br.com.marcos.screenmatch.service;
 import br.com.marcos.screenmatch.model.EpisodeData;
 import br.com.marcos.screenmatch.model.SeasonData;
 import br.com.marcos.screenmatch.model.SerieData;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,17 @@ import java.util.stream.IntStream;
 public class SeriesService {
 
     private final ApiConsumer apiConsumer = new ApiConsumer();
-
     private final ConvertData convertData = new ConvertData();
 
     @Value("${api.key}")
-    private String API_KEY;
+    private String apiKey;
 
-    private final String URL = "https://www.omdbapi.com/?apikey=" + API_KEY + "&t=";
+    private String url;
 
+    @PostConstruct
+    public void init() {
+        this.url = "https://www.omdbapi.com/?apikey=" + apiKey + "&t=";
+    }
 
     private static <T> T fetchData(ApiConsumer apiConsumer, ConvertData convertData, String url, Class<T> clazz) {
         String json = apiConsumer.getResponseBodyAsString(url);
@@ -29,16 +33,16 @@ public class SeriesService {
     }
 
     public SerieData findSeriesByName(String seriesName) {
-        return fetchData(apiConsumer, convertData, URL + seriesName, SerieData.class);
+        return fetchData(apiConsumer, convertData, url + seriesName, SerieData.class);
     }
 
     public Object listSeasonsBySeries(String name) {
-        SerieData seriesData = fetchData(apiConsumer, convertData, URL + name, SerieData.class);
+        SerieData seriesData = fetchData(apiConsumer, convertData, url + name, SerieData.class);
         List<SeasonData> seasonDataList = new ArrayList<>();
         IntStream.range(1, seriesData.totalSeasons() + 1)
                 .boxed()
                 .forEach(i -> {
-                    SeasonData seasonData = fetchData(apiConsumer, convertData, URL + name + "&season=" + i, SeasonData.class);
+                    SeasonData seasonData = fetchData(apiConsumer, convertData, url + name + "&season=" + i, SeasonData.class);
                     seasonDataList.add(seasonData);
                 });
 
